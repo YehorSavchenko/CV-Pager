@@ -1,0 +1,58 @@
+@startuml
+
+package "CV page" {
+    [app.js] as App
+    [routes/index.js] as IndexRoute
+    [routes/blog.js] as BlogRoute
+    [routes/blog-admin.js] as AdminRoute
+    [routes/article-page.js] as ArticleRoute
+    [routes/login.js] as LoginRoute
+    [views/index.ejs] as IndexView
+    [views/blog.ejs] as BlogView
+    [views/blog-admin.ejs] as AdminView
+    [views/article-page.ejs] as ArticleView
+    [views/login.ejs] as LoginView
+    [views/inc/header.ejs] as HeaderPartial
+    [public/javascripts/menubutton.js] as MenuButtonJS
+    [public/stylesheets/style.css] as StyleCSS
+    [public/stylesheets/blog.css] as BlogCSS
+    [public/stylesheets/main.css] as MainCSS
+    [public/images/] as Images
+
+    database "MySQL Database" {
+        [Database Schema]
+    }
+
+    App -down-> IndexRoute
+    App -down-> BlogRoute
+    App -down-> AdminRoute
+    App -down-> ArticleRoute
+    App -down-> LoginRoute
+
+    IndexRoute -right-> IndexView : renders
+    BlogRoute -right-> BlogView : renders
+    AdminRoute -right-> AdminView : renders
+    ArticleRoute -right-> ArticleView : renders
+    LoginRoute -right-> LoginView : renders
+
+    IndexView -down-> HeaderPartial : includes
+    BlogView -down-> HeaderPartial : includes
+    AdminView -down-> HeaderPartial : includes
+    ArticleView -down-> HeaderPartial : includes
+    LoginView -down-> HeaderPartial : includes
+
+    IndexView -down-> StyleCSS
+    BlogView -down-> BlogCSS
+    AdminView -down-> MainCSS
+    LoginView -down-> BlogCSS
+    HeaderPartial -down-> MenuButtonJS
+
+    IndexRoute -down-> "MySQL Database" : queries
+    BlogRoute -down-> "MySQL Database" : queries
+    AdminRoute -down-> "MySQL Database" : queries
+    LoginRoute -down-> "MySQL Database" : queries
+
+    Images -left-> App : serves
+}
+
+@enduml
